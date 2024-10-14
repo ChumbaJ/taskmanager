@@ -6,12 +6,6 @@ import { FormEvent } from 'react';
 export const LoginForm = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const res = await fetch('/api/example', {
-            method: "GET"
-        });
-
-        const resBody = await res.json();
-        console.log(resBody)
     }
 
     return (
