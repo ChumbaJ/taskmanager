@@ -1,7 +1,21 @@
+'use client'
+
 import { Avatar, Box, Button, Container, TextField, Typography } from '@mui/material';
+import { FormEvent } from 'react';
 
 export const LoginForm = () => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const res = await fetch('/api/example', {
+            method: "GET"
+        });
+
+        const resBody = await res.json();
+        console.log(resBody)
+    }
+
     return (
+        
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
@@ -15,8 +29,13 @@ export const LoginForm = () => {
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Вход
+                    
                 </Typography>
-                <Box component="form" sx={{ mt: 1 }}>
+                <Box 
+                    component="form" 
+                    sx={{ mt: 1 }}
+                    onSubmit={handleSubmit}
+                >
                     <TextField
                         margin="normal"
                         required

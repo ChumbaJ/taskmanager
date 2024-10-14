@@ -35,7 +35,6 @@ export const SignUpForm = () => {
                         id="username"
                         label="Имя пользователя"
                         name="username"
-                        autoComplete="username"
                         autoFocus
                     />
                     <TextField
@@ -45,7 +44,6 @@ export const SignUpForm = () => {
                         id="email"
                         label="Электронная почта"
                         name="email"
-                        autoComplete="email"
                     />
                     <TextField
                         margin="normal"
@@ -55,7 +53,6 @@ export const SignUpForm = () => {
                         label="Пароль"
                         type="password"
                         id="password"
-                        autoComplete="new-password"
                     />
                     <TextField
                         margin="normal"
@@ -65,7 +62,6 @@ export const SignUpForm = () => {
                         label="Подтвердите пароль"
                         type="password"
                         id="confirmPassword"
-                        autoComplete="new-password"
                     />
                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         Зарегистрироваться

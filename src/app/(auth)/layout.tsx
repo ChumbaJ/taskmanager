@@ -1,13 +1,15 @@
 'use client'
 import { Box, Container, Tab, Tabs } from "@mui/material";
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useRouter } from 'next/navigation';
-import Login from "./login/page";
-import SignUp from "./signup/page";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const handleTabChange = (_: SyntheticEvent, value: number) => router.push(`/${value === 0 ? 'login' : 'signup'}`);
+    const [activeTab, setActiveTab] = useState<number>(0);
+    const handleTabChange = (_: SyntheticEvent, value: number) => {
+        setActiveTab(value);
+        router.push(`/${value === 0 ? 'login' : 'signup'}`);
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -19,7 +21,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                     alignItems: 'center',
                 }}
             >
-                <Tabs onChange={handleTabChange} aria-label="login/signup tabs">
+                <Tabs value={activeTab} onChange={handleTabChange} aria-label="login/signup tabs">
                     <Tab label="Login" />
                     <Tab label="Sign Up" />
                 </Tabs>
