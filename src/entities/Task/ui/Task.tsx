@@ -19,10 +19,10 @@ export const Task = (props: TaskProps) => {
                     />
                 </Box>
                 <CardContent className={cls.card__content}>
-                    <Box className={cls.card__box}>
+                    {/* <Box className={cls.card__box}>
                         <Typography className={cls.card__box__title}>Participant:</Typography>
                         <Typography className={cls.card__box__content}>Name</Typography>
-                    </Box>
+                    </Box> */}
                     <Box className={cls.card__box}>
                         <Typography className={cls.card__box__title}>Date added:</Typography>
                         <Typography className={cls.card__box__content}>00/00/0000</Typography>
