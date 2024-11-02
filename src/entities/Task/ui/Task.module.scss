@@ -1,0 +1,53 @@
+.card {
+    width: 290px;
+    height: fit-content;
+    border-radius: 17px;
+}
+
+.card__actionArea {
+    padding: 15px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.card__header {
+    display: flex;
+    gap: 10px; 
+    align-items: center;
+}
+
+.card__title {
+    font-weight: 600;
+}
+
+.chip {
+    width: 70px;
+    height: 20px;
+    font-size: 12px;    
+    border-radius: 14px;
+
+}
+
+.card__content {
+    padding: 0;
+}
+
+.card__box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+
+}
+
+.card__box__title {
+    font-size: inherit;
+    font-weight: 600;
+    color: var(--color-gray-2);
+}
+
+.card__box__content {
+    font-size: 14px;
+}

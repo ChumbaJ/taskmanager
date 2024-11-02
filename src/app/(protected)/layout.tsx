@@ -6,7 +6,10 @@ function MainLayout({ children }: PropsWithChildren) {
     return (
         <>
             <HeaderMain/>
-            <Box component='main' sx={{ mt: '100px' }}>
+            <Box
+                component='main' 
+                sx={{ mt: '100px', p: '35px 60px' }}
+            >
                 { children }
             </Box>
         </>
