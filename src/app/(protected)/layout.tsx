@@ -8,7 +8,13 @@ function MainLayout({ children }: PropsWithChildren) {
             <HeaderMain/>
             <Box
                 component='main' 
-                sx={{ mt: '100px', p: '35px 60px' }}
+                sx={{ 
+                    mt: '100px', 
+                    p: '35px 60px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '25px'
+                }}
             >
                 { children }
             </Box>

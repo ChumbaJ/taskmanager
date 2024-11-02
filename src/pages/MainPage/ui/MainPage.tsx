@@ -1,8 +1,8 @@
 'use client'
 
-import { signOut } from 'next-auth/react';
-import Task from '@/entities/Task/ui/Task';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { Task } from '@/entities/Task/index';
+import { Column } from '@/entities/Column/ui/Column';
 import cls from './MainPage.module.scss';
 
 export const MainPage = () => {
@@ -14,8 +14,16 @@ export const MainPage = () => {
             >
                 Project name
             </Typography>
-            <Task/>
-            <button onClick={() => signOut()}>Logout</button>
+            <Box className={cls.columns}>
+                <Column label='To do'>
+                    <Task/>
+                    <Task/>
+                    <Task/>
+                </Column>
+                <Column label='In progress'></Column>
+                <Column label='Done'></Column>
+                <Column label='Frozen'></Column>
+            </Box>
         </>
     );
-};
+}; 

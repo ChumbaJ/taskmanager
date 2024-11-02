@@ -3,7 +3,7 @@ import cls from './Task.module.scss';
 
 interface TaskProps {}
 
-export default function Task(props: TaskProps) {
+export const Task = (props: TaskProps) => {
     return (
         <Card className={cls.card}>
             <CardActionArea className={cls.card__actionArea}>

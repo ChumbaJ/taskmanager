@@ -1,7 +1,7 @@
 'use client'
 
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { createContext } from "react";
 
 interface ThemeContextType {
@@ -92,7 +92,7 @@ const lightMode= createTheme({
 });
 
 const ThemeProviderWrapper = ({ children }: { children: React.ReactNode }) => {
-    const [mode, setMode] = useState<'light' | 'dark'>('dark');
+    const [mode, setMode] = useState<'light' | 'dark'>('light');
 
     const theme = mode === 'dark' ? darkMode : lightMode;
 

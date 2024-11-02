@@ -1,10 +1,10 @@
 'use client'
 
-import { AppBar, Box, FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, TextField, Toolbar, Typography } from "@mui/material"
+import { AppBar, Box, Button, FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, TextField, Toolbar, Typography } from "@mui/material"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import cls from './HeaderMain.module.scss';
 import { auth } from "@/app/api/auth/[...nextauth]/auth";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "@/app/providers/ThemeProvider/ThemeProviderWrapper";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -31,6 +31,12 @@ export const HeaderMain = () => {
                         <SearchIcon className={cls.searchIcon}/>
                     </InputAdornment>}
                 />
+                <Button
+                    variant='outlined'
+                    onClick={() => signOut()}
+                >
+                    Logout
+                </Button>
                 <Box className={cls.account__container}>
                     <IconButton className={cls.accountIconButton}>
                         <AccountCircleIcon className={cls.accountIconSvg}/>
