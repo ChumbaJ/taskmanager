@@ -1,15 +1,30 @@
 'use client'
 
-import { Avatar, Box, Button, Container, TextField, Typography } from '@mui/material';
-import { FormEvent } from 'react';
+import { Avatar, Box, Button, Container, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { signIn } from 'next-auth/react';
+import { FormEvent, useState } from 'react';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
 
 export const LoginForm = () => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const handleClickShowPassword = () => setShowPassword((prev) => !prev);
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        signIn('credentials', {
+            email: formData.get('email'),
+            password: formData.get('password'),
+            callbackUrl: '/',
+        });
     }
 
     return (
-        
         <Container component="main" maxWidth="xs">
             <Box
                 sx={{
@@ -23,7 +38,6 @@ export const LoginForm = () => {
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Вход
-                    
                 </Typography>
                 <Box 
                     component="form" 
@@ -34,10 +48,10 @@ export const LoginForm = () => {
                         margin="normal"
                         required
                         fullWidth
-                        id="username"
-                        label="Имя пользователя"
-                        name="username"
-                        autoComplete="username"
+                        id="email"
+                        label="E-mail"
+                        name="email"
+                        autoComplete="email"
                         autoFocus
                     />
                     <TextField
@@ -46,9 +60,19 @@ export const LoginForm = () => {
                         fullWidth
                         name="password"
                         label="Пароль"
-                        type="password"
                         id="password"
                         autoComplete="current-password"
+                        type={showPassword ? 'text' : 'password'}
+                        slotProps={{
+                            input: {
+                                endAdornment: 
+                                    <InputAdornment position='end'>
+                                        <IconButton onClick={handleClickShowPassword}>
+                                            {showPassword ? <VisibilityOffIcon/>: <VisibilityIcon/>}
+                                        </IconButton>        
+                                    </InputAdornment>
+                            }
+                        }}
                     />
                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         Войти

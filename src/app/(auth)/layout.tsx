@@ -1,34 +1,55 @@
 'use client'
-import { Box, Container, Tab, Tabs } from "@mui/material";
+import { Box, Container, IconButton, Tab, Tabs } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { useRouter } from 'next/navigation';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { useTheme } from "../providers/ThemeProvider/ThemeProviderWrapper";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const [activeTab, setActiveTab] = useState<number>(0);
+    const { mode, setMode } = useTheme();
+
+    const handleChangeTheme = () => {
+        if (mode === 'light') setMode('dark');
+        if (mode === 'dark') setMode('light');
+    }
+
     const handleTabChange = (_: SyntheticEvent, value: number) => {
         setActiveTab(value);
-        router.push(`/${value === 0 ? 'login' : 'signup'}`);
+        router.replace(`/${value === 0 ? 'login' : 'signup'}`);
     }
 
     return (
-        <Container component="main" maxWidth="xs">
-            <Box
+        <>
+            <IconButton
                 sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
+                    position: 'absolute',
+                    right: 30,
+                    top: 20,
                 }}
-            >
-                <Tabs value={activeTab} onChange={handleTabChange} aria-label="login/signup tabs">
-                    <Tab label="Login" />
-                    <Tab label="Sign Up" />
-                </Tabs>
-                <Box sx={{ mt: 3 }}>
-                    { children }
+                onClick={handleChangeTheme}>
+                {mode === 'light' ? <LightModeIcon/> : <DarkModeIcon/>}
+            </IconButton>
+            <Container component="main" maxWidth="xs">
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Tabs value={activeTab} onChange={handleTabChange} aria-label="login/signup tabs">
+                        <Tab label="Login" />
+                        <Tab label="Sign Up" />
+                    </Tabs>
+                    <Box sx={{ mt: 3 }}>
+                        { children }
+                    </Box>
                 </Box>
-            </Box>
-        </Container>
+            </Container>
+        </>
     );
 }

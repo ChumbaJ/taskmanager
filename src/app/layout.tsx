@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
-import { CssBaseline } from '@mui/material';
 import localFont from 'next/font/local';
+import SessionProviderWrapper from './api/auth/[...nextauth]/SessionProviderWrapper';
+import { getServerSession } from 'next-auth';
+import ThemeProviderWrapper from './providers/ThemeProvider/ThemeProviderWrapper';
+import './global/styles.scss'
 
 export const metadata: Metadata = {
     title: 'Task manager',
@@ -34,10 +37,14 @@ const myFont = localFont({
 });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+    const session = getServerSession();
     return (
         <html lang="ru">
-            <CssBaseline />
-            <body className={myFont.className}>{children}</body>
+            <SessionProviderWrapper session={session}>
+                <ThemeProviderWrapper>
+                    <body className={myFont.className}>{children}</body>
+                </ThemeProviderWrapper>
+            </SessionProviderWrapper>
         </html>
     );
 }

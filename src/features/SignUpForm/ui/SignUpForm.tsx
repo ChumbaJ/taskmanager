@@ -1,14 +1,57 @@
 'use client'
-import { Avatar, Box, Button, Container, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Container, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
+interface ISignUp {
+    username: string
+    email: string
+    password: string
+    passwordConfirm: string
+}
 
 export const SignUpForm = () => {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const handleClickShowPassword = () => setShowPassword((prev) => !prev);
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            username: data.get('username'),
-            email: data.get('email'),
-            password: data.get('password'),
+        const formData = new FormData(event.currentTarget);
+
+        if (formData.get('password') !== formData.get('passwordConfirm')) {
+            console.log('The passwords are not the same');
+            return;
+        };
+
+        const body: ISignUp = {
+            username: formData.get('username') as string,
+            email: formData.get('email') as string,
+            password: formData.get('password') as string,
+            passwordConfirm: formData.get('passwordConfirm') as string,
+        }!;
+
+        const response = await fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body),
+        })
+
+        const responseBody = await response.json();
+        
+        if (responseBody.status !== 'success') {
+            console.log('Something went wrong!');
+            return;
+        }
+
+        signIn('credentials', {
+            email: formData.get('email'),
+            password: formData.get('password'),
+            callbackUrl: '/',
         });
     };
 
@@ -51,17 +94,37 @@ export const SignUpForm = () => {
                         fullWidth
                         name="password"
                         label="Пароль"
-                        type="password"
                         id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        slotProps={{
+                            input: {
+                                endAdornment: 
+                                    <InputAdornment position='end'>
+                                        <IconButton onClick={handleClickShowPassword}>
+                                            {showPassword ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+                                        </IconButton>        
+                                    </InputAdornment>
+                            }
+                        }}
                     />
                     <TextField
                         margin="normal"
                         required
                         fullWidth
-                        name="confirmPassword"
+                        name="passwordConfirm"
                         label="Подтвердите пароль"
-                        type="password"
                         id="confirmPassword"
+                        type={showPassword ? 'text' : 'password'}
+                        slotProps={{
+                            input: {
+                                endAdornment: 
+                                    <InputAdornment position='end'>
+                                        <IconButton onClick={handleClickShowPassword}>
+                                            {showPassword ? <VisibilityOffIcon/>: <VisibilityIcon/>}
+                                        </IconButton>        
+                                    </InputAdornment>
+                            }
+                        }}
                     />
                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         Зарегистрироваться
