@@ -18,7 +18,8 @@
 .column__header {
     display: flex;
     justify-content: space-between;
-    align-self: flex-start;
+    align-items: center;
+    width: 100%;
 }
 
 .column__label {

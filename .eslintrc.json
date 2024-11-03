@@ -1,3 +1,11 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+    "extends": ["next/core-web-vitals", "next/typescript"],
+    "rules": {
+        "object-curly-spacing": ["error", "always"],
+        "quotes": ["error", "single"],
+        "indent": ["error", 4],
+        "eqeqeq": ["error", "always"],
+        "no-unused-vars": ["warn"],
+        "prefer-const": ["error"]
+    }
 }

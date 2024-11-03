@@ -4,6 +4,7 @@ import SessionProviderWrapper from './api/auth/[...nextauth]/SessionProviderWrap
 import { getServerSession } from 'next-auth';
 import ThemeProviderWrapper from './providers/ThemeProvider/ThemeProviderWrapper';
 import './global/styles.scss'
+import { StoreProvider } from './providers/StoreProvider';
 
 export const metadata: Metadata = {
     title: 'Task manager',
@@ -41,9 +42,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <html lang="ru">
             <SessionProviderWrapper session={session}>
-                <ThemeProviderWrapper>
-                    <body className={myFont.className}>{children}</body>
-                </ThemeProviderWrapper>
+                <StoreProvider>
+                    <ThemeProviderWrapper>
+                        <body className={myFont.className}>{children}</body>
+                    </ThemeProviderWrapper>
+                </StoreProvider>
             </SessionProviderWrapper>
         </html>
     );

@@ -1,9 +1,8 @@
-'use client'
-
 import { Box, Typography } from '@mui/material';
 import { Task } from '@/entities/Task/index';
-import { Column } from '@/entities/Column/ui/Column';
 import cls from './MainPage.module.scss';
+import { AddTaskForm } from '@/features/AddTaskForm/ui/AddTaskForm';
+import { Column } from '@/entities/Column';
 
 export const MainPage = () => {
     return (
@@ -24,6 +23,7 @@ export const MainPage = () => {
                 <Column label='Done'></Column>
                 <Column label='Frozen'></Column>
             </Box>
+            <AddTaskForm/>
         </>
     );
 }; 

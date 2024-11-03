@@ -4,6 +4,8 @@ import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { FormProvider, useForm } from 'react-hook-form';
+import { Input } from '@/shared/ui/FormElements/Input/Input';
 
 interface ISignUp {
     username: string
@@ -12,33 +14,32 @@ interface ISignUp {
     passwordConfirm: string
 }
 
+const defaultValues: ISignUp = {
+    username: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
+}
+
 export const SignUpForm = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
+    const methods = useForm({ defaultValues });
+
     const handleClickShowPassword = () => setShowPassword((prev) => !prev);
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-
-        if (formData.get('password') !== formData.get('passwordConfirm')) {
+    const onSubmit = async (formData: ISignUp) => {
+        if (formData.password !== formData.passwordConfirm) {
             console.log('The passwords are not the same');
             return;
         };
-
-        const body: ISignUp = {
-            username: formData.get('username') as string,
-            email: formData.get('email') as string,
-            password: formData.get('password') as string,
-            passwordConfirm: formData.get('passwordConfirm') as string,
-        }!;
 
         const response = await fetch('/api/auth/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(body),
+            body: JSON.stringify(formData),
         })
 
         const responseBody = await response.json();
@@ -49,8 +50,8 @@ export const SignUpForm = () => {
         }
 
         signIn('credentials', {
-            email: formData.get('email'),
-            password: formData.get('password'),
+            email: formData.email,
+            password: formData.password,
             callbackUrl: '/',
         });
     };
@@ -70,66 +71,72 @@ export const SignUpForm = () => {
                 <Typography component="h1" variant="h5">
                     Регистрация
                 </Typography>
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="username"
-                        label="Имя пользователя"
-                        name="username"
-                        autoFocus
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Электронная почта"
-                        name="email"
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Пароль"
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        slotProps={{
-                            input: {
-                                endAdornment: 
-                                    <InputAdornment position='end'>
-                                        <IconButton onClick={handleClickShowPassword}>
-                                            {showPassword ? <VisibilityOffIcon/> : <VisibilityIcon/>}
-                                        </IconButton>        
-                                    </InputAdornment>
-                            }
-                        }}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="passwordConfirm"
-                        label="Подтвердите пароль"
-                        id="confirmPassword"
-                        type={showPassword ? 'text' : 'password'}
-                        slotProps={{
-                            input: {
-                                endAdornment: 
-                                    <InputAdornment position='end'>
-                                        <IconButton onClick={handleClickShowPassword}>
-                                            {showPassword ? <VisibilityOffIcon/>: <VisibilityIcon/>}
-                                        </IconButton>        
-                                    </InputAdornment>
-                            }
-                        }}
-                    />
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                        Зарегистрироваться
-                    </Button>
-                </Box>
+                <FormProvider {...methods}>
+                    <form onSubmit={methods.handleSubmit(onSubmit)}>
+                        <Input
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="username"
+                            label="Имя пользователя"
+                            name="username"
+                            autoFocus
+                            registerOptions={{ required: true }}
+                        />
+                        <Input
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Электронная почта"
+                            name="email"
+                            registerOptions={{ required: true }}
+                        />
+                        <Input
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Пароль"
+                            id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            slotProps={{
+                                input: {
+                                    endAdornment: 
+                                        <InputAdornment position='end'>
+                                            <IconButton onClick={handleClickShowPassword}>
+                                                {showPassword ? <VisibilityOffIcon/> : <VisibilityIcon/>}
+                                            </IconButton>        
+                                        </InputAdornment>
+                                }
+                            }}
+                            registerOptions={{ required: true }}
+                        />
+                        <Input
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="passwordConfirm"
+                            label="Подтвердите пароль"
+                            id="confirmPassword"
+                            type={showPassword ? 'text' : 'password'}
+                            slotProps={{
+                                input: {
+                                    endAdornment: 
+                                        <InputAdornment position='end'>
+                                            <IconButton onClick={handleClickShowPassword}>
+                                                {showPassword ? <VisibilityOffIcon/>: <VisibilityIcon/>}
+                                            </IconButton>        
+                                        </InputAdornment>
+                                }
+                            }}
+                            registerOptions={{ required: true }}
+                        />
+                        <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            Зарегистрироваться
+                        </Button>
+                    </form>
+                </FormProvider>
             </Box>
         </Container>
     );
