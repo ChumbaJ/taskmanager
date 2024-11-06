@@ -1,10 +1,21 @@
-import { Card, CardActionArea, CardContent, Box, Typography, Chip } from '@mui/material';
+'use client'
+
+import { Card, CardActionArea, CardContent, Box, Typography, Chip, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import cls from './Task.module.scss';
 import { ITask } from '../model/types/TaskSchema';
+import { useDeleteTaskMutation } from '../api/taskApi';
 
 export const Task = ({ task }: { task: ITask }) => {
+    const [ deleteTask ] = useDeleteTaskMutation();
+
+    const handleDeleteTask = () => deleteTask(task);
+
     return (
         <Card className={cls.card}>
+            <IconButton onClick={handleDeleteTask} className={cls.card__deleteIconButton}>
+                <DeleteIcon className={cls.card__deleteIcon}/>
+            </IconButton>
             <CardActionArea className={cls.card__actionArea}>
                 <Box className={cls.card__header}>
                     <Typography

@@ -48,3 +48,22 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
         { status: 201 },
     );
 });
+
+export const DELETE = withErrorHandler(async (req: NextRequest) => {
+    const session = auth();
+    if (!session) throw new ApiError('You are not logged in', 401);
+
+    const requestBody: ITask = await req.json();
+
+    const task = await prisma.task.findUnique({
+        where: {
+            id: requestBody.id
+        }
+    });
+
+    return NextResponse.json<ApiResponse<ITask>>({
+        status: 'success',
+        data: task!,
+        message: 'The task successfuly deleted'
+    })
+});

@@ -1,5 +1,5 @@
+import { ApiResponse } from '@/shared/types/api';
 import { apiSlice } from '@/shared/api/apiSlice'
-import { ApiResponse } from '@/shared/types/api'
 import { ITask } from '../model/types/TaskSchema';
 
 export const apiSliceWithTasks = apiSlice.injectEndpoints({
@@ -15,8 +15,16 @@ export const apiSliceWithTasks = apiSlice.injectEndpoints({
                 body: newTask,
             }),
             invalidatesTags: ['Task'],
+        }),
+        deleteTask: builder.mutation<ApiResponse<ITask>, ITask>({
+            query: task => ({
+                url: 'task',
+                method: 'DELETE',
+                body: task,
+            }),
+            invalidatesTags: ['Task'],
         })
     })
 })
 
-export const { useGetTasksQuery, useCreateTaskMutation } = apiSliceWithTasks;
+export const { useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation } = apiSliceWithTasks;
