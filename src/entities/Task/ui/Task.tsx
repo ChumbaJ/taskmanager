@@ -1,9 +1,8 @@
 import { Card, CardActionArea, CardContent, Box, Typography, Chip } from '@mui/material';
 import cls from './Task.module.scss';
+import { ITask } from '../model/types/TaskSchema';
 
-interface TaskProps {}
-
-export const Task = (props: TaskProps) => {
+export const Task = ({ task }: { task: ITask }) => {
     return (
         <Card className={cls.card}>
             <CardActionArea className={cls.card__actionArea}>
@@ -11,25 +10,21 @@ export const Task = (props: TaskProps) => {
                     <Typography
                         className={cls.card__title}
                         variant='body1'
-                    >Задание</Typography>
+                    >{task.name}</Typography>
                     <Chip
                         className={cls.chip}
-                        label='Priority'
+                        label={task.priority}
                         variant='filled'
                     />
                 </Box>
                 <CardContent className={cls.card__content}>
-                    {/* <Box className={cls.card__box}>
-                        <Typography className={cls.card__box__title}>Participant:</Typography>
-                        <Typography className={cls.card__box__content}>Name</Typography>
-                    </Box> */}
                     <Box className={cls.card__box}>
                         <Typography className={cls.card__box__title}>Date added:</Typography>
-                        <Typography className={cls.card__box__content}>00/00/0000</Typography>
+                        <Typography className={cls.card__box__content}></Typography>
                     </Box>
                     <Box className={cls.card__box}>
                         <Typography className={cls.card__box__title}>Date end:</Typography>
-                        <Typography className={cls.card__box__content}>00/00/0000</Typography>
+                        <Typography className={cls.card__box__content}>{task.endDate?.toISOString()}</Typography>
                     </Box>
                 </CardContent>
             </CardActionArea>

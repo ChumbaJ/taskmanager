@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import SessionProviderWrapper from './api/auth/[...nextauth]/SessionProviderWrapper';
-import { getServerSession } from 'next-auth';
 import ThemeProviderWrapper from './providers/ThemeProvider/ThemeProviderWrapper';
 import './global/styles.scss'
 import { StoreProvider } from './providers/StoreProvider';
+import { auth } from './api/auth/[...nextauth]/auth';
 
 export const metadata: Metadata = {
     title: 'Task manager',
@@ -38,7 +38,7 @@ const myFont = localFont({
 });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    const session = getServerSession();
+    const session = auth();
     return (
         <html lang="ru">
             <SessionProviderWrapper session={session}>

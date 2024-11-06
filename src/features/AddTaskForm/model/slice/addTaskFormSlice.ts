@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { AddTaskFormSchema } from "../types/addTaskType";
+import { createSlice } from '@reduxjs/toolkit';
+import { AddTaskFormSchema } from '../types/addTaskFormSchema';
 
 const initialState: AddTaskFormSchema = {
-    open: false
-}
+    open: false,
+};
 
 const addTaskFormSlice = createSlice({
     name: 'addTaskFormSlice',
@@ -14,8 +14,8 @@ const addTaskFormSlice = createSlice({
         },
         closeForm(state) {
             state.open = false;
-        }
-    }
+        },
+    },
 });
 
 export const { actions: addTaskActions } = addTaskFormSlice;

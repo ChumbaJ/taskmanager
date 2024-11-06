@@ -90,6 +90,12 @@ export const LoginForm = () => {
                         </Button>
                     </form>
                 </FormProvider>
+                <Button variant='outlined'
+                    onClick={async () => {
+                        const res = await fetch('/api/task')
+                        console.log(await res.json())
+                    }}
+                >Unauthorized request</Button>
             </Box>
         </Container>
     );
