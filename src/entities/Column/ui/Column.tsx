@@ -8,10 +8,15 @@ import { AppDispatch } from '@/app/providers/StoreProvider/config/store';
 import { addTaskActions } from '@/features/AddTaskForm/model/slice/addTaskFormSlice';
 import React from 'react';
 import { TaskStatus } from '@prisma/client';
+import { useDroppable } from '@dnd-kit/core';
 
 interface ColumnProps {
     label: TaskStatus
     children?: React.ReactNode,
+}
+
+interface DropabbleData {
+    status: TaskStatus
 }
 
 export const Column = (props: ColumnProps) => {
@@ -19,30 +24,41 @@ export const Column = (props: ColumnProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const theme = useTheme();
 
+    const { setNodeRef } = useDroppable({ 
+        id: label,
+        data: {
+            status: label
+        } as DropabbleData
+    });
+
     const handleOpenAddTaskForm = () => dispatch(addTaskActions.openForm());
 
     return (
-        <Stack className={cls.column}>
-            <Box className={cls.column__header}>
-                <Typography
-                    className={cls.column__label}
-                    variant='h6'
-                >{label}</Typography>
-                {label === TaskStatus.TODO ? (
-                    <IconButton onClick={handleOpenAddTaskForm}>
-                        <AddCircleIcon
-                            sx={{
-                                color: theme.palette.mode === 'dark'
-                                    ? theme.palette.primary.dark
-                                    : theme.palette.primary.dark
-                            }}
-                        />
-                    </IconButton>
-                ) : (
-                    null
-                )}
-            </Box>
-            { children }
-        </Stack>
+        <div ref={setNodeRef}>
+            <Stack className={cls.column}>
+                <Box className={cls.column__header}>
+                    <Typography
+                        className={cls.column__label}
+                        variant='h6'
+                    >{label}</Typography>
+                    {label === TaskStatus.TODO ? (
+                        <IconButton onClick={handleOpenAddTaskForm}>
+                            <AddCircleIcon
+                                sx={{
+                                    color: theme.palette.mode === 'dark'
+                                        ? theme.palette.primary.dark
+                                        : theme.palette.primary.dark
+                                }}
+                            />
+                        </IconButton>
+                    ) : (
+                        null
+                    )}
+                </Box>
+                <Box className={cls.column__content}>
+                    { children }
+                </Box>
+            </Stack>
+        </div>
     );
 }

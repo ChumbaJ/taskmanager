@@ -1,6 +1,7 @@
 import { ApiResponse } from '@/shared/types/api';
 import { apiSlice } from '@/shared/api/apiSlice'
 import { ITask } from '../model/types/TaskSchema';
+import { TaskStatus } from '@prisma/client';
 
 export const apiSliceWithTasks = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -23,8 +24,29 @@ export const apiSliceWithTasks = apiSlice.injectEndpoints({
                 body: task,
             }),
             invalidatesTags: ['Task'],
+        }),
+        updateTask: builder.mutation<ApiResponse<ITask>, { id: string, task: Partial<ITask> }>({
+            query: (data) => ({
+                url: 'task',
+                method: 'PATCH',
+                body: data
+            }),
+            async onQueryStarted({ id, task }, { dispatch, queryFulfilled }) {
+                const taskPatchResult = dispatch(
+                    apiSliceWithTasks.util.updateQueryData('getTasks', undefined, cache => {
+                        const taskToUpdate = cache.data!.find(task => task.id === id)!;
+
+                        Object.assign(taskToUpdate, task);
+                    })
+                )
+                try {
+                    await queryFulfilled;
+                } catch (error) {
+                    taskPatchResult.undo();
+                }
+            }
         })
     })
 })
 
-export const { useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation } = apiSliceWithTasks;
+export const { useGetTasksQuery, useCreateTaskMutation, useDeleteTaskMutation, useUpdateTaskMutation } = apiSliceWithTasks;

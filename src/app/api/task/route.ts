@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../auth/[...nextauth]/auth';
 import { ApiError } from '@/shared/api/errors/APIError';
 import { withErrorHandler } from '@/shared/api/errors/ErrorHandler';
+import { TaskStatus } from '@prisma/client';
 
 
 export const GET = withErrorHandler(async (req: NextRequest) => {
@@ -49,13 +50,35 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
     );
 });
 
+export const PATCH = withErrorHandler(async (req: NextRequest) => {
+    const session = await auth();
+    if (!session) throw new ApiError('You are not logged in', 401); 
+
+    const requestBody: { id: string, task: ITask } = await req.json();
+
+    const updatedTask = await prisma.task.update({
+        where: {
+            id: requestBody.id,
+        },
+        data: {
+            ...requestBody.task,
+        },
+    });
+
+    return  NextResponse.json<ApiResponse<ITask>>({
+        status: 'success',
+        data: updatedTask,
+    });
+
+});
+
 export const DELETE = withErrorHandler(async (req: NextRequest) => {
     const session = auth();
     if (!session) throw new ApiError('You are not logged in', 401);
 
     const requestBody: ITask = await req.json();
 
-    const task = await prisma.task.findUnique({
+    const task = await prisma.task.delete({
         where: {
             id: requestBody.id
         }

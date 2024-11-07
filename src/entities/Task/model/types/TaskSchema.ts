@@ -1,4 +1,4 @@
-import { Priority, Task, TaskStatus } from '@prisma/client';
+import { Priority, TaskStatus } from '@prisma/client';
 
 export interface ITask {
     id?: string;
@@ -6,10 +6,11 @@ export interface ITask {
     description?: string | null;
     status?: TaskStatus;
     priority?: Priority;
-    endDate?: Date | null;
+    endDate?: Date | null | string;
+    createdAt?: Date
     userId?: string;
 }
 
 export interface TaskSchema {
-    tasks: Task[]
+    tasks: ITask[]
 }

@@ -92,7 +92,7 @@ const lightMode= createTheme({
 });
 
 const ThemeProviderWrapper = ({ children }: { children: React.ReactNode }) => {
-    const [mode, setMode] = useState<'light' | 'dark'>('dark');
+    const [mode, setMode] = useState<'light' | 'dark'>('light');
     const theme = mode === 'dark' ? darkMode : lightMode;
 
     return (
