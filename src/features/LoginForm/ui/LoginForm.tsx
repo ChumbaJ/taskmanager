@@ -1,8 +1,8 @@
 'use client'
 
-import { Avatar, Box, Button, Container, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Container, IconButton, InputAdornment, Typography } from '@mui/material';
 import { signIn } from 'next-auth/react';
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { Input } from '@/shared/ui/FormElements/Input/Input';
@@ -90,12 +90,6 @@ export const LoginForm = () => {
                         </Button>
                     </form>
                 </FormProvider>
-                <Button variant='outlined'
-                    onClick={async () => {
-                        const res = await fetch('/api/task')
-                        console.log(await res.json())
-                    }}
-                >Unauthorized request</Button>
             </Box>
         </Container>
     );

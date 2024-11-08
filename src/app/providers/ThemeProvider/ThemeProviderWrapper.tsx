@@ -1,8 +1,13 @@
 'use client'
 
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import { createContext } from "react";
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { useContext, useState, createContext } from 'react';
+
+declare module '@mui/material/styles' {
+    interface TypeBackground {
+        block?: string
+    }
+}
 
 interface ThemeContextType {
     mode: 'light' | 'dark';
@@ -21,8 +26,9 @@ const darkMode = createTheme({
             main: '#03dac6', // Вторичный цвет (например, бирюзовый)
         },
         background: {
-            default: '#121212', // Цвет фона
-            paper: '#1e1e1e', // Цвет бумаги (для карточек и других компонентов)
+            default: '#0D0D0D', // Цвет фона
+            paper: '#20252E', // Цвет бумаги (для карточек и других компонентов)
+            block: '#151515',
         },
         text: {
             primary: '#ffffff', // Основной цвет текста
@@ -30,18 +36,29 @@ const darkMode = createTheme({
         },
         // Дополнительные цвета, если необходимо
         error: {
-            main: '#cf6679', // Цвет для ошибок
+            main: '#EA5B5B', // Цвет для ошибок
         },
         warning: {
-            main: '#ffb74d', // Цвет для предупреждений
+            main: '#FFA34D', // Цвет для предупреждений
         },
         info: {
             main: '#29b6f6', // Цвет для информации
         },
         success: {
-            main: '#66bb6a', // Цвет для успеха
+            main: '#7AD278', // Цвет для успеха
         },
     },
+    shadows: [
+        'none',
+        '0px 2px 4px rgba(255, 255, 255, 0.1)', // shadows[1]
+        '0px 4px 8px rgba(255, 255, 255, 0.12)', // shadows[2]
+        '0px 6px 12px rgba(255, 255, 255, 0.15)', // shadows[3]
+        '0px 4px 12px rgba(255, 255, 255, 0.2)', // shadows[4] — кастомная тень
+        'none', 'none', 'none', 'none', 'none', // shadows[5-9]
+        'none', 'none', 'none', 'none', 'none', // shadows[10-14]
+        'none', 'none', 'none', 'none', 'none', // shadows[15-19]
+        'none', 'none', 'none', 'none', 'none'  // shadows[20-24]
+    ]
 })
 
 const lightMode= createTheme({
@@ -69,44 +86,47 @@ const lightMode= createTheme({
         },
         background: {
             default: '#ffffff', // Цвет фона
-            paper: '#f3e5f5', // Цвет бумаги (например, для карточек)
+            paper: '#E0E4EA', // Цвет бумаги (например, для карточек)
+            block: '#F6F6F6',
         },
         text: {
-            primary: '#212121', // Основной цвет текста
+            primary: '#000000', // Основной цвет текста
             secondary: '#757575', // Вторичный цвет текста
         },
         // Дополнительные цвета
         error: {
-            main: '#f44336', // Цвет для ошибок
+            main: '#E74444', // Цвет для ошибок
         },
         warning: {
-            main: '#ffb74d', // Цвет для предупреждений
+            main: '#FF9533', // Цвет для предупреждений
         },
         info: {
             main: '#2196f3', // Цвет для информации
         },
         success: {
-            main: '#4caf50', // Цвет для успеха
+            main: '#67CB65 ', // Цвет для успеха
         },
+        
     },
+
 });
 
 const ThemeProviderWrapper = ({ children }: { children: React.ReactNode }) => {
-    const [mode, setMode] = useState<'light' | 'dark'>('light');
+    const [mode, setMode] = useState<'light' | 'dark'>('dark');
     const theme = mode === 'dark' ? darkMode : lightMode;
 
     return (
-            <ThemeContext.Provider value={{ mode, setMode }}>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline/>
-                    {children}
-                </ThemeProvider>
-            </ThemeContext.Provider>
+        <ThemeContext.Provider value={{ mode, setMode }}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
+                {children}
+            </ThemeProvider>
+        </ThemeContext.Provider>
     )
  
 }
 
-export const useTheme = () => {
+export const useThemeContext = () => {
     const context = useContext(ThemeContext);
 
     if (!context) {

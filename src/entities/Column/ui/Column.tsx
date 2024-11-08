@@ -35,19 +35,18 @@ export const Column = (props: ColumnProps) => {
 
     return (
         <div ref={setNodeRef}>
-            <Stack className={cls.column}>
+            <Stack sx={{ background: theme.palette.background.block }} className={cls.column}>
                 <Box className={cls.column__header}>
                     <Typography
                         className={cls.column__label}
                         variant='h6'
+                        color={theme.palette.text.primary}
                     >{label}</Typography>
                     {label === TaskStatus.TODO ? (
                         <IconButton onClick={handleOpenAddTaskForm}>
                             <AddCircleIcon
                                 sx={{
-                                    color: theme.palette.mode === 'dark'
-                                        ? theme.palette.primary.dark
-                                        : theme.palette.primary.dark
+                                    color: theme.palette.success.main,
                                 }}
                             />
                         </IconButton>

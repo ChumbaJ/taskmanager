@@ -12,7 +12,7 @@ import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { useRouter } from 'next/navigation';
 
 const renderColumnContent = (tasks: ITask[] | undefined, isLoading: boolean, status: TaskStatus) => {
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <Typography color='info'>Loading...</Typography>
 
     return tasks!.filter(task => task.status === status)
         .map(task => (
@@ -36,11 +36,13 @@ export const MainPage = () => {
         if (!event.over) return;
 
         const taskId = event.active.id;
-        const currentTask = tasks?.data!.find(task => task.id === taskId)!
+        const currentTask = tasks!.data!.find(task => task.id === taskId)!
 
         if (event.over.id === currentTask.status) {
-            router.push('/task');
-            return;
+            if (event.delta.x === 0 || event.delta.y === 0) {
+                router.push('/task');
+                return;
+            }
         }
 
         const newStatus: TaskStatus = event.over.data.current ? event.over.data.current.status : null;

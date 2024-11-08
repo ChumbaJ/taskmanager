@@ -3,3 +3,13 @@
 body {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
+
+a {
+    text-decoration: none; /* Убирает подчеркивание */
+    color: inherit; /* Убирает синий цвет */
+  }
+  
+  a:hover {
+    text-decoration: none; /* Убирает подчеркивание при наведении */
+    color: inherit; /* Сохраняет текущий цвет */
+  }

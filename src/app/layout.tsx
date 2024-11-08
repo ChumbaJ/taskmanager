@@ -14,27 +14,22 @@ export const metadata: Metadata = {
 const myFont = localFont({
     src: [
         {
-            path: './global/fonts/Roboto-Thin.ttf',
-            weight: '100',
-            style: 'normal',
-        },
-        {
-            path: './global/fonts/Roboto-Light.ttf',
+            path: './global/fonts/Rubik/Rubik-Light.ttf',  // Путь к шрифту Light
             weight: '300',
             style: 'normal',
         },
         {
-            path: './global/fonts/Roboto-Regular.ttf',
+            path: './global/fonts/Rubik/Rubik-Regular.ttf',  // Путь к шрифту Regular
             weight: '400',
             style: 'normal',
         },
         {
-            path: './global/fonts/Roboto-Bold.ttf',
+            path: './global/fonts/Rubik/Rubik-Bold.ttf',  // Путь к шрифту Bold
             weight: '700',
             style: 'normal',
         },
     ],
-    display: 'swap',
+    display: 'swap',  // Используйте "swap" для того, чтобы быстро показывать контент даже если шрифт не загружен
 });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
